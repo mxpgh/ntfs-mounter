@@ -1,0 +1,15 @@
+# Build output
+dist/
+build/
+*.pyc
+__pycache__/
+
+# macOS
+.DS_Store
+
+# User preferences (auto-created at runtime)
+.ntfs-mounter/
+
+# IDE
+.vscode/
+.idea/
