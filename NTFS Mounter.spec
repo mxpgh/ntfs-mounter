@@ -5,7 +5,7 @@ a = Analysis(
     ['ntfs_mounter.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('icon_menubar.png', '.')],
     hiddenimports=['preferences', 'volume_monitor', 'mounter', 'ui'],
     hookspath=[],
     hooksconfig={},

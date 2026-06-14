@@ -1,9 +1,17 @@
+import os
+import sys
 import threading
 import webbrowser
 import rumps
 
 from volume_monitor import VolumeMonitor, NTFSVolume
 from mounter import mount_ntfs_readwrite, unmount_volume
+
+
+def _icon_path(name: str) -> str:
+    """Resolve path to a bundled resource file (works with PyInstaller)."""
+    base = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base, name)
 
 
 # --- Menu callbacks ---------------------------------------------------------
@@ -100,7 +108,7 @@ class NTFSMounterApp(rumps.App):
         super().__init__(
             name="NTFS",
             title="NTFS",
-            icon=None,
+            icon=_icon_path("icon_menubar.png"),
             quit_button=None,
         )
         self.monitor = VolumeMonitor(poll_interval=5.0)
