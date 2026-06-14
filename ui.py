@@ -8,6 +8,22 @@ from volume_monitor import VolumeMonitor, NTFSVolume
 from mounter import mount_ntfs_readwrite, unmount_volume
 
 
+def _patch_rumps_tooltip():
+    """Monkey-patch rumps NSApp to support a tooltip on the statusbar icon."""
+    _orig = rumps.rumps.NSApp.initializeStatusBar
+
+    def _patched(self):
+        _orig(self)
+        tip = self._app.get("_tooltip")
+        if tip:
+            self.nsstatusitem.button().setToolTip_(tip)
+
+    rumps.rumps.NSApp.initializeStatusBar = _patched
+
+
+_patch_rumps_tooltip()
+
+
 def _icon_path(name: str) -> str:
     """Resolve path to a bundled resource file (works with PyInstaller)."""
     base = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -111,6 +127,8 @@ class NTFSMounterApp(rumps.App):
             icon=_icon_path("app_icon.png"),
             quit_button=None,
         )
+        # Used by _patch_rumps_tooltip() to set statusbar tooltip
+        self._tooltip = "NTFS Mounter"
         self.monitor = VolumeMonitor(poll_interval=5.0)
         self.monitor.on_change = self._on_volumes_changed
 
