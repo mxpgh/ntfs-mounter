@@ -9,14 +9,22 @@ from mounter import mount_ntfs_readwrite, unmount_volume
 
 
 def _patch_rumps_tooltip():
-    """Monkey-patch rumps NSApp to support a tooltip on the statusbar icon."""
+    """Monkey-patch rumps NSApp for tooltip & larger icon area."""
+    import AppKit
     _orig = rumps.rumps.NSApp.initializeStatusBar
 
     def _patched(self):
         _orig(self)
+        # Tooltip
         tip = self._app.get("_tooltip")
         if tip:
             self.nsstatusitem.button().setToolTip_(tip)
+        # Larger icon area — give more breathing room
+        self.nsstatusitem.setLength_(28)
+        # Scale image properly inside the status slot
+        self.nsstatusitem.button().setImageScaling_(
+            AppKit.NSImageScaleProportionallyUpOrDown
+        )
 
     rumps.rumps.NSApp.initializeStatusBar = _patched
 
