@@ -55,7 +55,7 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='NTFS Mounter.app',
-    icon=None,
+    icon='icon.icns',
     bundle_identifier='com.ntfs-mounter',
     info_plist={'LSUIElement': True, 'NSHighResolutionCapable': True},
 )
