@@ -107,8 +107,8 @@ class NTFSMounterApp(rumps.App):
     def __init__(self):
         super().__init__(
             name="NTFS",
-            title="NTFS",
-            icon=_icon_path("icon_menubar.png"),
+            title="",
+            icon=_icon_path("app_icon.png"),
             quit_button=None,
         )
         self.monitor = VolumeMonitor(poll_interval=5.0)
